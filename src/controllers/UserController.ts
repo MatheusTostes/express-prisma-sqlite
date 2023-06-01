@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import ListUsers from '../services/UserServices/ListUsers';
 import UpdateService from '../services/UserServices/UpdateService';
 import CreateService from '../services/UserServices/CreateService';
 
@@ -17,4 +18,10 @@ export const updateService = async (req: Request, res: Response) => {
   const user = await UpdateService({ id, ...body });
 
   return res.status(201).json(user);
+};
+
+export const listUsers = async (req: Request, res: Response) => {
+  const users = await ListUsers();
+
+  return res.status(200).json(users);
 };
