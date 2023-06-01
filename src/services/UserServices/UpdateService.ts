@@ -13,15 +13,25 @@ interface IUser {
 const UpdateService = async (data: IUser): Promise<User> => {
   const { id, email, name, password, login } = data;
 
-  const user = await prisma.user.update({
-    data: {
-      name,
-      email,
-      password,
-      login,
-    },
+  let user = await prisma.user.findUnique({
     where: {
       id: Number(id),
+    },
+  });
+
+  if (!user) {
+    throw new Error('USER_NOT_FOUND');
+  }
+
+  user = await prisma.user.update({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      email,
+      name,
+      password,
+      login,
     },
   });
 
