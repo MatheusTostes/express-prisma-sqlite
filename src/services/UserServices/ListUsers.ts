@@ -1,6 +1,4 @@
-import { PrismaClient, User } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from '../../utils/prisma';
 
 // create a type based on prisma User but without password
 

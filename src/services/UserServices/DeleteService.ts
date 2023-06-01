@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from '../../utils/prisma';
 
 const DeleteService = async (id: string): Promise<void> => {
   const user = await prisma.user.findUnique({
