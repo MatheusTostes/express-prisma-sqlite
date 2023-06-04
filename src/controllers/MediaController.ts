@@ -7,11 +7,6 @@ interface CustomRequest extends Request {
 export const upload = async (req: Request, res: Response) => {
   const media = req.file as Express.Multer.File;
 
-  // if size > 5MB or < 1kb return error
-  if (media.size > 5 * 1024 * 1024 || media.size < 1 * 1024) {
-    return res.status(400).json({ message: 'INVALID_FILE_SIZE' });
-  }
-
   if (!media) {
     return res.status(400).json({ message: 'MEDIA_NOT_FOUND' });
   }
