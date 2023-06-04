@@ -1,4 +1,4 @@
-import githubAxios from '../../config/github/githubAxios';
+import githubAxios from '../../config/githubAxios';
 
 interface IGithubUser {
   login: string;
