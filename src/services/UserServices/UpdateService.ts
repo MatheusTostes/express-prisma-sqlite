@@ -1,5 +1,10 @@
-import { User } from '@prisma/client';
 import prisma from '../../utils/prisma';
+
+interface IUserReturn {
+  email: string;
+  name: string;
+  login: string;
+}
 
 interface IUser {
   id: string;
@@ -9,7 +14,7 @@ interface IUser {
   login: string;
 }
 
-const UpdateService = async (data: IUser): Promise<User> => {
+const UpdateService = async (data: IUser): Promise<IUserReturn> => {
   const { id, email, name, password, login } = data;
 
   let user = await prisma.user.findUnique({
@@ -34,7 +39,11 @@ const UpdateService = async (data: IUser): Promise<User> => {
     },
   });
 
-  return user;
+  return {
+    email: user.email,
+    name: user.name,
+    login: user.login,
+  };
 };
 
 export default UpdateService;
