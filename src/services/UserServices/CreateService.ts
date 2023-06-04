@@ -1,4 +1,3 @@
-import { User } from '@prisma/client';
 import prisma from '../../utils/prisma';
 
 interface IUser {
@@ -8,7 +7,13 @@ interface IUser {
   login: string;
 }
 
-const CreateService = async (data: IUser): Promise<User> => {
+interface IUserReturn {
+  email: string;
+  name: string;
+  login: string;
+}
+
+const CreateService = async (data: IUser): Promise<IUserReturn> => {
   const { email, name, password, login } = data;
 
   const user = await prisma.user.create({
@@ -20,7 +25,11 @@ const CreateService = async (data: IUser): Promise<User> => {
     },
   });
 
-  return user;
+  return {
+    email: user.email,
+    name: user.name,
+    login: user.login,
+  };
 };
 
 export default CreateService;
