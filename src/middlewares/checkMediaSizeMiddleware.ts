@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 
+const maxFileSize = 5 * 1024 * 1024; // 5MB
+const minFileSize = 1 * 1024; // 1KB
+
 const checkMediaSizeMiddleware = (
   req: Request,
   res: Response,
@@ -9,7 +12,7 @@ const checkMediaSizeMiddleware = (
 
   if (
     contentLength &&
-    (contentLength > 5 * 1024 * 1024 || contentLength < 1 * 1024)
+    (contentLength > maxFileSize || contentLength < minFileSize)
   ) {
     return res.status(400).json({ message: 'INVALID_FILE_SIZE' });
   }

@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import prisma from '../utils/prisma';
 
+const passwordMinLength = 6;
+
 const checkEmailInUse = async (emailToCheck: string, id: number) => {
   const emailInUse = await prisma.user.findFirst({
     where: {
@@ -45,7 +47,7 @@ const checkDataUserMiddleware = async (
     message = 'EMAIL_ALREADY_IN_USE';
   } else if (!email.match(emailRegex)) {
     message = 'INVALID_EMAIL';
-  } else if (!password || password.length < 5) {
+  } else if (!password || password.length < passwordMinLength) {
     message = 'PASSWORD_MUST_CONTAIN_AT_LEAST_6_CHARACTERS';
   } else if (!login) {
     message = 'LOGIN_REQUIRED';
