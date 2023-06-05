@@ -94,7 +94,7 @@ npm run dev
   }
   ```
 
-  ### `GET /user/:id`
+  ### `GET /user`
 
   Get all users.
 
