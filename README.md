@@ -4,11 +4,13 @@ A simple project with a user crud, github api integration and media upload/downl
 
 ## Technologies Used
 
+- Typescript
 - Node.js
 - Express
 - Prisma
 - SQLite
 - Multer
+- EsLint
 
 ## Installation
 
