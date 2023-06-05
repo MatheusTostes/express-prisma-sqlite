@@ -3,26 +3,48 @@ import prisma from '../utils/prisma';
 
 const passwordMinLength = 6;
 
-const checkEmailInUse = async (emailToCheck: string, id: number) => {
-  const emailInUse = await prisma.user.findFirst({
-    where: {
+const checkEmailInUse = async (emailToCheck: string, id: number | null) => {
+  let whereCondition;
+
+  console.log({ id });
+
+  if (id) {
+    whereCondition = {
       email: emailToCheck,
       NOT: {
         id,
       },
-    },
+    };
+  } else {
+    whereCondition = {
+      email: emailToCheck,
+    };
+  }
+
+  const emailInUse = await prisma.user.findFirst({
+    where: whereCondition,
   });
   return emailInUse;
 };
 
-const checkLoginInUse = async (loginToCheck: string, id: number) => {
-  const loginInUse = await prisma.user.findFirst({
-    where: {
+const checkLoginInUse = async (loginToCheck: string, id: number | null) => {
+  let whereCondition;
+
+  if (id) {
+    whereCondition = {
       login: loginToCheck,
       NOT: {
         id,
       },
-    },
+    };
+  } else {
+    whereCondition = {
+      login: loginToCheck,
+    };
+  }
+
+  const loginInUse = await prisma.user.findFirst({
+    where: whereCondition,
   });
   return loginInUse;
 };
@@ -34,24 +56,30 @@ const checkDataUserMiddleware = async (
   res: Response,
   next: NextFunction,
 ): Promise<void | Response> => {
-  const id = Number(req.params.id);
+  const id = Number(req.params.id) || null;
   const { name, email, password, login } = req.body;
 
   let message;
 
   if (!name) {
     message = 'NAME_REQUIRED';
-  } else if (!email) {
+  }
+  if (!email) {
     message = 'EMAIL_REQUIRED';
-  } else if (await checkEmailInUse(email, id)) {
+  }
+  if (await checkEmailInUse(email, id)) {
     message = 'EMAIL_ALREADY_IN_USE';
-  } else if (!email.match(emailRegex)) {
+  }
+  if (!email.match(emailRegex)) {
     message = 'INVALID_EMAIL';
-  } else if (!password || password.length < passwordMinLength) {
+  }
+  if (!password || password.length < passwordMinLength) {
     message = 'PASSWORD_MUST_CONTAIN_AT_LEAST_6_CHARACTERS';
-  } else if (!login) {
+  }
+  if (!login) {
     message = 'LOGIN_REQUIRED';
-  } else if (await checkLoginInUse(login, id)) {
+  }
+  if (await checkLoginInUse(login, id)) {
     message = 'LOGIN_ALREADY_IN_USE';
   }
 
