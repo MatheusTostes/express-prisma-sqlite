@@ -21,7 +21,7 @@ npm install
 4. Create a `.env` file in the root directory and configure the following environment variables:
 ```
 PORT=8080
-FRONTEND_URL="your_frontend_url" (optional)
+FRONTEND_URL="your_frontend_url" (cors)
 DATABASE_URL="file:./dev.db"
 ```
 5. Run the migrations to create the database schema:
@@ -30,7 +30,12 @@ npx prisma migrate dev
 ```
 6. Start the server:
 ```
+npm run build
 npm start
+```
+or
+```
+npm run dev
 ```
 7. The server will be running at `http://localhost:8080`.
 
