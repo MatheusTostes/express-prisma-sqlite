@@ -6,8 +6,6 @@ const passwordMinLength = 6;
 const checkEmailInUse = async (emailToCheck: string, id: number | null) => {
   let whereCondition;
 
-  console.log({ id });
-
   if (id) {
     whereCondition = {
       email: emailToCheck,
